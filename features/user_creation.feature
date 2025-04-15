@@ -1,37 +1,37 @@
 Feature: User Creation
-  As an administrator
-  I want to be able to create new users
-  So that I can manage access to the system
 
-  Scenario: Create a new user with valid details
+  Scenario: Create user with Admin role and Active status
     Given I am on the user creation page
     And I open the user creation form using the "Add New" button
-    When I enter "John Doe" as the user name
-    And I enter "9999999999" as the contact number
-    And I enter "john@example.com" as the contact email
-    And I select "Manager" as the role name
-    And I select "ACTIVE" as the status
-    And I click the "Save" button
-    Then I should see a success message
+    When I enter "Govarthini_K" as the user name
+    And I enter "9879465802" as the contact number
+    And I enter "govarthini@trunovatech.com" as the contact email
+    And I select the role "Employee"
+    And I select the status "ACTIVE"
+    And I click the "Save" button on user creation form
+    Then the user should be created successfully
 
-  Scenario: Create user with missing email
+
+
+  Scenario: Create user with Cooling tower operator role and Inactive status
     Given I am on the user creation page
     And I open the user creation form using the "Add New" button
     When I enter "Jane Smith" as the user name
-    And I enter "8888888888" as the contact number
-    And I leave the email empty
-    And I select "Admin" as the role name
-    And I select "ACTIVE" as the status
-    And I click the "Save" button
-    Then I should see an error message
+    And I enter "9123456780" as the contact number
+    And I enter "john.doe@example.com" as the contact email
+    And I select the role "Cooling tower operator"
+    And I select the status "INACTIVE"
+    And I click the "Save" button on user creation form
+    Then the user should be created successfully
 
-  Scenario: Create user with invalid role name
+
+  Scenario: Create user with multiple roles and Active status
     Given I am on the user creation page
     And I open the user creation form using the "Add New" button
-    When I enter "Alice Example" as the user name
-    And I enter "7777777777" as the contact number
-    And I enter "alice@example.com" as the contact email
-    And I select "InvalidRole" as the role name
-    And I select "ACTIVE" as the status
-    And I click the "Save" button
-    Then I should see a success message
+    When I enter "Alice Johnson" as the user name
+    And I enter "9988776655" as the contact number
+    And I enter "john.doe@example.com" as the contact email
+    And I select the roles "Manager, Supervisor"
+    And I select the status "ACTIVE"
+    And I click the "Save" button on user creation form
+    Then the user should be created successfully
