@@ -28,3 +28,4 @@ Feature: Role Creation
     And I enter "Temporary Role" as the role name
     And I click the "Reset" button
     Then the form should be reset to its initial state
+
