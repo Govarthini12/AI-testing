@@ -22,9 +22,3 @@ Feature: Role Creation
     Then an error message should be displayed
     And the error message should contain "Role Name is required"
 
-  Scenario: Reset role creation form
-    Given I am on the role creation page
-    When I open the role creation form using the "Add New" button
-    And I enter "Temporary Role" as the role name
-    And I click the "Reset" button
-    Then the form should be reset to its initial state

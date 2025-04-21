@@ -51,18 +51,18 @@ def step_impl(context, role):
         context.driver.execute_script("arguments[0].click();", el)
     dropdown.click()  # Close dropdown
 
-@when('I select the roles "{roles}"')
-def step_impl(context, roles):
-    role_list = [r.strip() for r in roles.split(',')]
-    wait = WebDriverWait(context.driver, 10)
-    dropdown = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "dropdown-btn")))
-    dropdown.click()
-    time.sleep(1)
-    for role in role_list:
-        role_elements = context.driver.find_elements(By.XPATH, f'//div[text()="{role}"]/preceding-sibling::input[@type="checkbox"]')
-        for el in role_elements:
-            context.driver.execute_script("arguments[0].click();", el)
-    dropdown.click()  # Close dropdown
+# @when('I select the roles "{roles}"')
+# def step_impl(context, roles):
+#     role_list = [r.strip() for r in roles.split(',')]
+#     wait = WebDriverWait(context.driver, 10)
+#     dropdown = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "dropdown-btn")))
+#     dropdown.click()
+#     time.sleep(1)
+#     for role in role_list:
+#         role_elements = context.driver.find_elements(By.XPATH, f'//div[text()="{role}"]/preceding-sibling::input[@type="checkbox"]')
+#         for el in role_elements:
+#             context.driver.execute_script("arguments[0].click();", el)
+#     dropdown.click()  # Close dropdown
 
 @when('I select the status "{status}"')
 def step_impl(context, status):

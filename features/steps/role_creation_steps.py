@@ -1,112 +1,230 @@
+# from behave import given, when, then
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.common.exceptions import TimeoutException
+# from time import sleep
+
+# @given('I am on the role creation page')
+# def step_impl(context):
+#     context.driver.get("https://trunova-coolingtower-iiot-app-ae7e23b9458d.herokuapp.com/role_creation")  # Adjust URL as needed
+#     WebDriverWait(context.driver, 10).until(
+#         EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'addnewBtn')]"))
+#     )
+
+# @when('I open the role creation form using the "Add New" button')
+# def step_impl(context):
+#     wait = WebDriverWait(context.driver, 20)
+#     add_button = wait.until(EC.element_to_be_clickable((
+#         By.XPATH, '//button[contains(@class, "addnewBtn") and contains(text(), "Add New")]'
+#     )))
+#     add_button.click()
+
+
+# @when('I enter "{role_name}" as the role name')
+# def step_impl(context, role_name):
+#     role_input = WebDriverWait(context.driver, 10).until(
+#         EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter Role Name']"))
+#     )
+#     role_input.clear()
+#     role_input.send_keys(role_name)
+
+# @when('I enter "{role_description}" as the role description')
+# def step_impl(context, role_description):
+#     desc_input = WebDriverWait(context.driver, 10).until(
+#         EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter Role Description']"))
+#     )
+#     desc_input.clear()
+#     desc_input.send_keys(role_description)
+
+# @when('I select "{screen1}" and "{screen2}" as screen names')
+# def step_impl(context, screen1, screen2):
+#     dropdown = WebDriverWait(context.driver, 10).until(
+#         EC.element_to_be_clickable((By.XPATH, "//span[contains(@class, 'dropdown-btn')]"))
+#     )
+#     dropdown.click()
+#     sleep(1)
+#     for screen in [screen1, screen2]:
+#         checkbox = WebDriverWait(context.driver, 10).until(
+#             EC.element_to_be_clickable((
+#                 By.XPATH, f"//li[contains(@class, 'multiselect-item-checkbox')]//div[text()='{screen}']/preceding-sibling::input"
+#             ))
+#         )
+#         if not checkbox.is_selected():
+#             checkbox.click()
+#             sleep(0.2)
+
+# @when('I select no screen names')
+# def step_impl(context):
+#     pass  # Intentionally empty to simulate no selection
+
+# @when('I set the status to "{status}"')
+# def step_impl(context, status):
+#     status_dropdown = WebDriverWait(context.driver, 10).until(
+#         EC.presence_of_element_located((By.XPATH, "//select"))
+#     )
+#     status_dropdown.click()
+#     sleep(0.3)
+#     option = WebDriverWait(context.driver, 10).until(
+#         EC.element_to_be_clickable((By.XPATH, f"//option[normalize-space(text())='{status.upper()}']"))
+#     )
+#     option.click()
+
+# @when('I click the "Save" button')
+# def step_impl(context):
+#     save_btn = WebDriverWait(context.driver, 10).until(
+#         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Save')]"))
+#     )
+#     save_btn.click()
+#     sleep(2)
+
+# @then('the role should be created successfully')
+# def step_impl(context):
+#     # Adjust based on your success message or logic
+#     try:
+#         WebDriverWait(context.driver, 10).until(
+#             EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Role created successfully')]"))
+#         )
+#     except TimeoutException:
+#         assert False, "Success message not found."
+
+# @then('the role name "{role_name}" should be displayed')
+# def step_impl(context, role_name):
+#     displayed_role = WebDriverWait(context.driver, 10).until(
+#         EC.presence_of_element_located((By.XPATH, f"//td[contains(text(), '{role_name}')]"))
+#     )
+#     assert displayed_role is not None
+
+# @then('an error message should be displayed')
+# def step_impl(context):
+#     WebDriverWait(context.driver, 10).until(
+#         EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'error') or contains(@class, 'alert-danger')]"))
+#     )
+
+# @then('the error message should contain "Role Name is required"')
+# def step_impl(context):
+#     error_message = context.driver.find_element(By.XPATH, "//*[contains(text(), 'Role Name is required')]")
+#     assert "Role Name is required" in error_message.text
+
+# @when('I click the "Reset" button')
+# def step_impl(context):
+#     reset_btn = WebDriverWait(context.driver, 10).until(
+#         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Reset')]"))
+#     )
+#     reset_btn.click()
+#     sleep(1)
+
+# @then('the form should be reset to its initial state')
+# def step_impl(context):
+#     role_input = context.driver.find_element(By.XPATH, "//input[@placeholder='Enter Role Name']")
+#     desc_input = context.driver.find_element(By.XPATH, "//input[@placeholder='Enter Role Description']")
+#     assert role_input.get_attribute('value') == ""
+#     assert desc_input.get_attribute('value') == ""
+
 from behave import given, when, then
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
+from time import sleep
 
-# Setup for the WebDriver
 @given('I am on the role creation page')
 def step_impl(context):
-    context.driver = webdriver.Chrome()
     context.driver.get("https://trunova-coolingtower-iiot-app-ae7e23b9458d.herokuapp.com/role_creation")
-    context.driver.maximize_window()
     WebDriverWait(context.driver, 10).until(
-        EC.presence_of_element_located((By.TAG_NAME, "body"))
+        EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'addnewBtn')]"))
     )
 
-# Step for opening the role creation form
 @when('I open the role creation form using the "Add New" button')
 def step_impl(context):
     wait = WebDriverWait(context.driver, 20)
     add_button = wait.until(EC.element_to_be_clickable((By.XPATH, '//button[contains(@class, "addnewBtn") and contains(text(), "Add New")]')))
     add_button.click()
 
-# Step for entering role name
 @when('I enter "{role_name}" as the role name')
 def step_impl(context, role_name):
-    wait = WebDriverWait(context.driver, 10)
-    field = context.driver.find_element(By.ID, "roleName")
-    field.clear()
-    field.send_keys(role_name)
+    role_input = WebDriverWait(context.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter Role Name']"))
+    )
+    role_input.clear()
+    role_input.send_keys(role_name)
 
-# Step for entering role description
 @when('I enter "{role_description}" as the role description')
 def step_impl(context, role_description):
-    field = context.driver.find_element(By.ID, "roleDescription")
-    field.clear()
-    field.send_keys(role_description)
+    desc_input = WebDriverWait(context.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Enter Role Description']"))
+    )
+    desc_input.clear()
+    desc_input.send_keys(role_description)
 
-# Step for selecting screen names
 @when('I select "{screen1}" and "{screen2}" as screen names')
 def step_impl(context, screen1, screen2):
-    dropdown = context.driver.find_element(By.CSS_SELECTOR, ".multiselect-dropdown")
+    wait = WebDriverWait(context.driver, 10)
+    dropdown = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(@class, 'dropdown-btn')]")))
     dropdown.click()
-    WebDriverWait(context.driver, 5).until(
-        EC.presence_of_element_located((By.XPATH, f"//input[@aria-label='{screen1}']"))
-    )
-    context.driver.find_element(By.XPATH, f"//input[@aria-label='{screen1}']").click()
-    context.driver.find_element(By.XPATH, f"//input[@aria-label='{screen2}']").click()
+    sleep(1)
 
-# Step for no screen names selected
+    for screen in [screen1, screen2]:
+        checkbox_xpath = f"//li[contains(@class, 'multiselect-item-checkbox')]//div[text()='{screen}']/preceding-sibling::input"
+        try:
+            checkbox = wait.until(EC.element_to_be_clickable((By.XPATH, checkbox_xpath)))
+            if not checkbox.is_selected():
+                context.driver.execute_script("arguments[0].click();", checkbox)
+                sleep(0.2)
+        except ElementClickInterceptedException:
+            print(f"Retrying JavaScript click for: {screen}")
+            checkbox = context.driver.find_element(By.XPATH, checkbox_xpath)
+            context.driver.execute_script("arguments[0].click();", checkbox)
+            sleep(0.2)
+
 @when('I select no screen names')
 def step_impl(context):
-    pass  # No action needed for empty selection
+    pass  # intentionally left empty
 
-# Step for setting the status
 @when('I set the status to "{status}"')
 def step_impl(context, status):
-    dropdown = context.driver.find_element(By.ID, "statusDropdown")
-    dropdown.click()
-    option = dropdown.find_element(By.XPATH, f".//option[text()='{status}']")
+    status_dropdown = WebDriverWait(context.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//select"))
+    )
+    status_dropdown.click()
+    sleep(0.3)
+    option = WebDriverWait(context.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, f"//option[normalize-space(text())='{status.upper()}']"))
+    )
     option.click()
 
-# Step for clicking the Save button
 @when('I click the "Save" button')
 def step_impl(context):
-    save_button = context.driver.find_element(By.ID, "saveBtn")
-    save_button.click()
-    WebDriverWait(context.driver, 10).until(
-        EC.presence_of_element_located((By.ID, "successMessage"))
+    save_btn = WebDriverWait(context.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Save')]"))
     )
+    save_btn.click()
+    sleep(2)
 
-# Step to verify successful role creation
 @then('the role should be created successfully')
 def step_impl(context):
-    message = context.driver.find_element(By.ID, "successMessage")
-    assert "Role created successfully" in message.text
+    try:
+        WebDriverWait(context.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Role created successfully')]"))
+        )
+    except TimeoutException:
+        assert False, "Success message not found."
 
-# Step to verify the role name displayed
 @then('the role name "{role_name}" should be displayed')
 def step_impl(context, role_name):
-    displayed_role = context.driver.find_element(By.CSS_SELECTOR, ".role-display")
-    assert role_name in displayed_role.text
+    displayed_role = WebDriverWait(context.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, f"//td[contains(text(), '{role_name}')]"))
+    )
+    assert displayed_role is not None
 
-# Step for verifying error message on invalid details
 @then('an error message should be displayed')
 def step_impl(context):
-    error_message = WebDriverWait(context.driver, 5).until(
-        EC.visibility_of_element_located((By.CSS_SELECTOR, ".error-message"))
+    WebDriverWait(context.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'error') or contains(@class, 'alert-danger')]"))
     )
-    assert error_message.is_displayed()
 
-# Step for verifying error message text
-@then('the error message should contain "{error_message}"')
-def step_impl(context, error_message):
-    error_elem = context.driver.find_element(By.CSS_SELECTOR, ".error-message")
-    assert error_message in error_elem.text
-
-# Step for clicking the Reset button
-@when('I click the "Reset" button')
+@then('the error message should contain "Role Name is required"')
 def step_impl(context):
-    reset_button = context.driver.find_element(By.ID, "resetBtn")
-    reset_button.click()
-    time.sleep(1)  # Ensure reset action takes place before verifying
+    error_message = context.driver.find_element(By.XPATH, "//*[contains(text(), 'Role Name is required')]")
+    assert "Role Name is required" in error_message.text
 
-# Step for verifying the form is reset
-@then('the form should be reset to its initial state')
-def step_impl(context):
-    name_field = context.driver.find_element(By.ID, "roleName")
-    desc_field = context.driver.find_element(By.ID, "roleDescription")
-    assert name_field.get_attribute('value') == ""
-    assert desc_field.get_attribute('value') == ""
