@@ -29,8 +29,8 @@ Branch: `govarthini-testing-agent`
 1. **Clone the repository**
 
 bash
-  git clone -b govarthini-testing-agent https://github.com/TruNovaTech/truNova-testing-agent.git
-  cd truNova-testing-agent
+  https://github.com/Govarthini12/AI-testing.git
+  cd AI-testing
   
 2. Create a virtual environment (optional but recommended)
 
